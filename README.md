@@ -10,9 +10,7 @@
 iPhone开发中，会尽量用选择代替输入，如果输入逃避不了，那就面对吧。本文讲述如何让你的**TextView**实现高度自适应与输入时候高度自适应，这里我直接使用**tableviewController**，因为不用关注键盘的问题，自己可以完美处理。**搞技术的最接受不了废话，直接上图、上代码压压惊**
 
 ![](image/top.gif)
-
 ![](image/middle.gif)
-
 ![](image/bottom.gif)
 
 在tableview控制器中，代码如下
