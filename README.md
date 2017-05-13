@@ -1,4 +1,5 @@
-##当TextView遇到了tableView，实现高度自适应与输入时候高度自适应
+###当TextView遇到了tableView，实现高度自适应与输入时候高度自适应
+
 
 思考几个问题
 > * TextView 如果userInteractionEnabled为NO可以当label使用吗？
