@@ -102,7 +102,7 @@ iPhone开发中，会尽量用选择代替输入，如果输入逃避不了，�
 ***
 
 感谢您阅读完毕，如有疑问，欢迎添加QQ:**714387953**(蜗牛上高速)。
-**github**:[https://github.com/yhl714387953/ModuleCommuication](https://github.com/yhl714387953/ModuleCommuication)
+**github**:[https://github.com/yhl714387953/TextViewInCell](https://github.com/yhl714387953/TextViewInCell)
 如果有错误，欢迎指正，一起切磋，共同进步
 如果喜欢可以**Follow、Star、Fork**，都是给我最大的鼓励。
 
