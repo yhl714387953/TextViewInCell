@@ -40,7 +40,6 @@
             make.right.equalTo(self.contentView.mas_right).offset(-15);
         }];
         
-        /*  这里没有必要更新高度了 因为  高度的约束是mas_greaterThanOrEqualTo
         __weak typeof (self) weakSelf = self;
         self.textView.heightDidChangeBlock = ^(NSString *text, CGFloat height) {
             [weakSelf.textView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -54,7 +53,6 @@
             
             [weakSelf layoutIfNeeded];
         };
-        */
         
     }
     

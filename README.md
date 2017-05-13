@@ -1,5 +1,9 @@
 ##当TextView遇到了tableView，实现高度自适应与输入时候高度自适应
-###TextView能替代label和Texfield吗？看下文
+
+思考几个问题
+> * TextView 如果userInteractionEnabled为NO可以当label使用吗？
+> * TextView 如果加了placeholder 可以当TextField使用吗？
+> * TextView 高度自适应可以替代label的自适应么？
 
 iPhone开发中，会尽量用选择代替输入，如果输入逃避不了，那就面对吧。本文讲述如何让你的**TextView**和实现高度自适应与输入时候高度自适应实现高度自适应与输入时候高度自适应，这里我直接使用**tableviewController**，因为不用关注键盘的问题，自己可以完美处理。**搞技术的最接受不了废话，直接上图、上代码压压惊**
 
