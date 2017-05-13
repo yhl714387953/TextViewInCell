@@ -31,7 +31,7 @@
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-tableView.userInteractionEnabled
+
     return 10;
 }
 

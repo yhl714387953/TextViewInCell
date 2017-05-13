@@ -2,7 +2,7 @@
 ===
 
 
-思考几个问题
+**思考几个问题**
 > * TextView 如果userInteractionEnabled为NO可以当label使用吗？
 > * TextView 如果加了placeholder 可以当TextField使用吗？
 > * TextView 高度自适应可以替代label的自适应么？
