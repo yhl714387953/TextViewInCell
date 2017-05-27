@@ -45,6 +45,23 @@
 //    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textDidChanged) name:UITextViewTextDidChangeNotification object:self];
     
+    [self addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+    
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    
+    if (object == self && [keyPath isEqualToString:@"text"]) {
+        NSLog(@"text did change -- observeValueForKeyPath");
+        NSInteger height = ceilf([self sizeThatFits:CGSizeMake(self.bounds.size.width, MAXFLOAT)].height);
+        self.textHeight = height;
+        // 超过最大高度，那么就可以滚动
+        self.scrollEnabled = height > self.actualHeight && self.actualHeight > 0;
+        if (self.textDidSetBlock) {
+            self.textDidSetBlock(self.text, height);
+            [self.superview layoutIfNeeded];
+        }
+    }
 }
 
 -(void)setHeightDidChangeBlock:(void (^)(NSString *, CGFloat))heightDidChangeBlock{
@@ -81,6 +98,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self removeObserver:self forKeyPath:@"text"];
 }
 
 /*

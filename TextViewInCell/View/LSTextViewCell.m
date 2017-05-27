@@ -36,7 +36,7 @@
             make.top.equalTo(self.contentView.mas_top).offset(5).priority(999);
             make.height.mas_greaterThanOrEqualTo(@(14)).priority(888);
             make.bottom.equalTo(self.contentView.mas_bottom).offset(-5).priority(777);
-            make.left.equalTo(self.contentView.mas_left).offset(100 - 5);
+            make.left.equalTo(self.contentView.mas_left).offset(95);
             make.right.equalTo(self.contentView.mas_right).offset(-15);
         }];
         
@@ -50,6 +50,16 @@
             if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(textViewCell:textHeightChange:)]) {
                 [weakSelf.delegate textViewCell:weakSelf textHeightChange:text];
             }
+            
+            [weakSelf layoutIfNeeded];
+        };
+        
+        self.textView.textDidSetBlock = ^(NSString *text, CGFloat textHeight) {
+            
+            [weakSelf.textView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_greaterThanOrEqualTo(@(textHeight)).priority(888);
+                
+            }];
             
             [weakSelf layoutIfNeeded];
         };

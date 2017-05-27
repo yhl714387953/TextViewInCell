@@ -31,7 +31,7 @@
 /** 代理 */
 @property (nonatomic, weak) id<LSTextViewCellDelegate> delegate;
 
-/** 最大字符数限制 */
+/** 输入状态下  最大字符数限制 */
 @property (nonatomic) NSInteger maxNumberWords;
 
 @property (strong, nonatomic) UILabel *label;

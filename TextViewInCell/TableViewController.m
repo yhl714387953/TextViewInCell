@@ -11,13 +11,24 @@
 
 @interface TableViewController ()<LSTextViewCellDelegate>
 
+/** 数据源 */
+@property (nonatomic, strong) NSMutableArray* dataSource;
+
 @end
 
 @implementation TableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.dataSource = [NSMutableArray array];
+    for (int i = 0; i < 10; i++) {
+        [self.dataSource addObject:@""];
+    }
+    
+    
     [self.tableView registerClass:[LSTextViewCell class] forCellReuseIdentifier:@"cell"];
+    
 }
 
 -(void)dealloc{
@@ -32,7 +43,7 @@
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 10;
+    return self.dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -46,7 +57,9 @@
     };
     
     // Configure the cell...
-    
+    cell.maxNumberWords = 500;
+    cell.textView.text = self.dataSource[indexPath.row];
+
     return cell;
 }
 
@@ -66,7 +79,11 @@
     NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
     NSLog(@"%@    %@", indexPath, text);
     //拿到了indexPath 那就做自己需要的工作了
+    if (!indexPath) {
+        return;
+    }
     
+    [self.dataSource replaceObjectAtIndex:indexPath.row withObject:text];
 }
 
 /*
