@@ -45,24 +45,23 @@
 //    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textDidChanged) name:UITextViewTextDidChangeNotification object:self];
     
-    [self addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
-    
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
-    
-    if (object == self && [keyPath isEqualToString:@"text"]) {
-        NSLog(@"text did change -- observeValueForKeyPath");
-        NSInteger height = ceilf([self sizeThatFits:CGSizeMake(self.bounds.size.width, MAXFLOAT)].height);
-        self.textHeight = height;
-        // 超过最大高度，那么就可以滚动
-        self.scrollEnabled = height > self.actualHeight && self.actualHeight > 0;
-        if (self.textDidSetBlock) {
-            self.textDidSetBlock(self.text, height);
+-(void)textDidSet{
+    NSLog(@"text did change -- observeValueForKeyPath");
+    NSInteger height = ceilf([self sizeThatFits:CGSizeMake(self.bounds.size.width, MAXFLOAT)].height);
+    if (self.textDidSetBlock) {
+        self.textDidSetBlock(self.text, height);
+        [self.superview layoutIfNeeded];//注意调用的对象，一定是待更新视图的俯视图去调用，如果需要动画，那么就按照如下方法去调用
+        
+        /*
+        [UIView animateWithDuration:0.25 animations:^{
             [self.superview layoutIfNeeded];
-        }
+        }];
+        */
     }
 }
+
 
 -(void)setHeightDidChangeBlock:(void (^)(NSString *, CGFloat))heightDidChangeBlock{
     _heightDidChangeBlock = heightDidChangeBlock;

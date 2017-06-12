@@ -11,6 +11,11 @@
 FOUNDATION_EXPORT double UITextView_PlaceholderVersionNumber;
 FOUNDATION_EXPORT const unsigned char UITextView_PlaceholderVersionString[];
 
+/*
+ 内部已经使用KVO监听了，如果继承重写textView 再监听就会失效，如果需要在text 设置的时候有所操作，那么可以个实现如下方法
+ -(void)textDidSet;
+ 
+ */
 @interface UITextView (LSPlaceHolder)
 
 @property (nonatomic, readonly) UILabel *placeholderLabel;

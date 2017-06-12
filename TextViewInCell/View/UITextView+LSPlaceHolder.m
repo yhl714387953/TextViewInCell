@@ -146,6 +146,18 @@
     if ([keyPath isEqualToString:@"font"]) {
         self.needsUpdateFont = (change[NSKeyValueChangeNewKey] != nil);
     }
+    
+    if ([keyPath isEqualToString:@"text"]) {
+        NSLog(@"text did change -- observeValueForKeyPath  placeHolder");
+        SEL selector = NSSelectorFromString(@"textDidSet");
+        if ([self respondsToSelector:selector]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+            [self performSelector:selector];
+#pragma clang diagnostic pop
+        }
+    }
+    
     [self updatePlaceholderLabel];
 }
 
