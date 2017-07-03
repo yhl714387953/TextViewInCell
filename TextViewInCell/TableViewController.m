@@ -50,12 +50,6 @@
     LSTextViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     cell.delegate = self;
     
-    __weak typeof(self) weakSelf = self;
-    cell.textView.heightDidChangeBlock = ^(NSString *text, CGFloat height) {
-        [weakSelf.tableView beginUpdates];
-        [weakSelf.tableView endUpdates];
-    };
-    
     // Configure the cell...
     cell.maxNumberWords = 500;
     cell.textView.text = self.dataSource[indexPath.row];
@@ -84,6 +78,11 @@
     }
     
     [self.dataSource replaceObjectAtIndex:indexPath.row withObject:text];
+}
+
+-(void)textViewCell:(LSTextViewCell*)cell textHeightChange:(NSString*)text{
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
 }
 
 /*

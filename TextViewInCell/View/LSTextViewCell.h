@@ -15,7 +15,7 @@
 @optional
 
 /*
- 如果外部实现了textView.heightDidChangeBlock，那么这个协议是不会执行的(因为这个block是在cell创建时候赋值的)
+ 如果外部实现了textView.heightDidChangeBlock，那么这个协议是不会执行的(因为这个block是在cell创建时候赋值的)，textView的block就不要在外部调用了，切记……
  不管外部实现 textView.heightDidChangeBlock 还是调用了这个协议方法，都需要调用tableview的如下两个方法，连着调用即可
     [tableView beginUpdates];
     [tableView endUpdates];
