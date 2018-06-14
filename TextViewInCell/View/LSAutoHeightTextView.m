@@ -9,8 +9,9 @@
 #import "LSAutoHeightTextView.h"
 
 @interface LSAutoHeightTextView ()
-@property (nonatomic,assign)NSInteger textHeight;
-@property (nonatomic,assign)NSInteger actualHeight;
+@property (nonatomic,assign) NSInteger textHeight;
+@property (nonatomic,assign) NSInteger maxHeight;
+@property (nonatomic, strong) UILabel* placeholderLabel;
 
 @end
 
@@ -20,92 +21,85 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self initAttributes];
+        [self configureUI];
     }
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
-    self = [super initWithCoder:coder];
-    if (self) {
-        [self initAttributes];
-    }
-    return self;
-}
-
-- (void)initAttributes{
-    self.showsVerticalScrollIndicator = NO;
+- (void)configureUI{
+    
+    self.showsHorizontalScrollIndicator = NO;
     self.scrollEnabled = NO;
     self.scrollsToTop = NO;
     self.enablesReturnKeyAutomatically = YES;
-    self.numberOfLines = 1;
-
-    self.font = [UIFont systemFontOfSize:14];
-//    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textDidChanged) name:UITextViewTextDidChangeNotification object:self];
     
+    self.maxNumOfLines = 5;
+    self.font = [UIFont systemFontOfSize:14];
+    
+    //文本输入的时候才会响应
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textValueChanged) name:UITextViewTextDidChangeNotification object:self];
+    [self addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
+    
+    self.placeholderLabel = [[UILabel alloc] initWithFrame:(CGRectMake(self.textContainerInset.left + 5, self.textContainerInset.top, 1000, 16))];
+    self.placeholderLabel.textColor = [UIColor lightGrayColor];
+    //    self.placeholderLabel.hidden = YES;
+    [self addSubview:self.placeholderLabel];
 }
 
--(void)textDidSet{
-    NSLog(@"text did change -- observeValueForKeyPath");
-    NSInteger height = ceilf([self sizeThatFits:CGSizeMake(self.bounds.size.width, MAXFLOAT)].height);
-    if (self.textDidSetBlock) {
-        self.textDidSetBlock(self.text, height);
-        [self.superview layoutIfNeeded];//注意调用的对象，一定是待更新视图的俯视图去调用，如果需要动画，那么就按照如下方法去调用
-        
-        /*
-        [UIView animateWithDuration:0.25 animations:^{
-            [self.superview layoutIfNeeded];
-        }];
-        */
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    
+    if (object == self && [keyPath isEqualToString:@"text"]) {
+        [self textValueChanged];
     }
 }
 
-
--(void)setHeightDidChangeBlock:(void (^)(NSString *, CGFloat))heightDidChangeBlock{
-    _heightDidChangeBlock = heightDidChangeBlock;
-
-    [self textDidChanged];
+-(void)setTextHeightChangeBlock:(void (^)(NSString *, CGFloat))textHeightChangeBlock{
+    _textHeightChangeBlock = textHeightChangeBlock;
+    [self textValueChanged];
 }
 
-- (void)textDidChanged{
+-(void)setPlaceholder:(NSString *)placeholder{
+    _placeholder = placeholder;
+    
+    self.placeholderLabel.text = placeholder;
+}
+
+- (void)textValueChanged{
+    self.placeholderLabel.hidden = self.text.length != 0;
+    
     NSInteger height = ceilf([self sizeThatFits:CGSizeMake(self.bounds.size.width, MAXFLOAT)].height);
     
-    if (self.textHeight != height) { // 高度如果不一样，就换行改变了高度
+    if (self.textHeight != height) { // 高度不一样，就改变了高度
+        
+        // 最大高度，可以滚动
+        self.scrollEnabled = height > self.maxHeight && self.maxHeight > 0;
         self.textHeight = height;
-        // 超过最大高度，那么就可以滚动
-        self.scrollEnabled = height > self.actualHeight && self.actualHeight > 0;
-
-        if (self.heightDidChangeBlock && self.scrollEnabled == NO) {
-            self.heightDidChangeBlock(self.text,height);
-            [self.superview layoutIfNeeded];
-            
+        
+        if (height > self.maxHeight) {
+            height = self.maxHeight;
         }
         
+        if (self.textHeightChangeBlock) {
+            self.textHeightChangeBlock(self.text, height);
+            [self.superview layoutIfNeeded];
+        }
     }
 }
 
-
--(void)setNumberOfLines:(NSInteger)numberOfLines{
-    _numberOfLines = numberOfLines;
-    
-    //向上取整，同时要注意内容的显示在视图内的上下padding
-    self.actualHeight = ceil(self.font.lineHeight * numberOfLines + self.textContainerInset.top + self.textContainerInset.bottom);
+-(void)setMaxNumOfLines:(NSInteger)maxNumOfLines{
+    _maxNumOfLines = maxNumOfLines;
+    // 超出这个最大高度时,就可以滚动；小于这个高度时,frame高度增加.
+    self.maxHeight = ceil(self.font.lineHeight * maxNumOfLines + self.textContainerInset.top + self.textContainerInset.bottom);
 }
-
-- (void)dealloc
-{
+- (void)dealloc{
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self removeObserver:self forKeyPath:@"text"];
+    @try {
+        // [self removeObserver:self forKeyPath:@"text"];
+    } @catch (NSException *exception) {
+        // Do nothing
+    }
 }
-
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect {
- // Drawing code
- }
- */
 
 @end

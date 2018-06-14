@@ -26,7 +26,6 @@
 		ABD37A451EC7027C0095210F /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD37A3B1EC7027C0095210F /* ViewController+MASAdditions.m */; };
 		ABD37A501EC702FC0095210F /* LSAutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD37A4B1EC702FC0095210F /* LSAutoHeightTextView.m */; };
 		ABD37A511EC702FC0095210F /* LSTextViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD37A4D1EC702FC0095210F /* LSTextViewCell.m */; };
-		ABD37A521EC702FC0095210F /* UITextView+LSPlaceHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD37A4F1EC702FC0095210F /* UITextView+LSPlaceHolder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,8 +70,6 @@
 		ABD37A4B1EC702FC0095210F /* LSAutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSAutoHeightTextView.m; sourceTree = "<group>"; };
 		ABD37A4C1EC702FC0095210F /* LSTextViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LSTextViewCell.h; sourceTree = "<group>"; };
 		ABD37A4D1EC702FC0095210F /* LSTextViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LSTextViewCell.m; sourceTree = "<group>"; };
-		ABD37A4E1EC702FC0095210F /* UITextView+LSPlaceHolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+LSPlaceHolder.h"; sourceTree = "<group>"; };
-		ABD37A4F1EC702FC0095210F /* UITextView+LSPlaceHolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+LSPlaceHolder.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,8 +166,6 @@
 				ABD37A4B1EC702FC0095210F /* LSAutoHeightTextView.m */,
 				ABD37A4C1EC702FC0095210F /* LSTextViewCell.h */,
 				ABD37A4D1EC702FC0095210F /* LSTextViewCell.m */,
-				ABD37A4E1EC702FC0095210F /* UITextView+LSPlaceHolder.h */,
-				ABD37A4F1EC702FC0095210F /* UITextView+LSPlaceHolder.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -246,7 +241,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABD37A521EC702FC0095210F /* UITextView+LSPlaceHolder.m in Sources */,
 				ABD37A3D1EC7027C0095210F /* MASConstraint.m in Sources */,
 				ABD37A401EC7027C0095210F /* MASViewAttribute.m in Sources */,
 				ABD37A451EC7027C0095210F /* ViewController+MASAdditions.m in Sources */,
@@ -419,6 +413,7 @@
 				ABD37A181EC700D60095210F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

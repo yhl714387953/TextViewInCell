@@ -8,7 +8,6 @@
 
 #import "LSTextViewCell.h"
 #import "Masonry.h"
-#import "UITextView+LSPlaceHolder.h"
 
 @implementation LSTextViewCell
 
@@ -37,14 +36,14 @@
             make.height.mas_greaterThanOrEqualTo(@(14)).priority(888);
             make.bottom.equalTo(self.contentView.mas_bottom).offset(-5).priority(777);
             make.left.equalTo(self.contentView.mas_left).offset(95);
-            make.right.equalTo(self.contentView.mas_right).offset(-15);
+            make.right.equalTo(self.contentView.mas_right).offset(-155);
         }];
         
         __weak typeof (self) weakSelf = self;
-        self.textView.heightDidChangeBlock = ^(NSString *text, CGFloat height) {
+        self.textView.textHeightChangeBlock = ^(NSString *text, CGFloat textHeight) {
+            
             [weakSelf.textView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_greaterThanOrEqualTo(@(height)).priority(888);
-        
+                make.height.mas_greaterThanOrEqualTo(@(textHeight)).priority(888);
             }];
             
             if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(textViewCell:textHeightChange:)]) {
@@ -53,17 +52,6 @@
             
             [weakSelf layoutIfNeeded];
         };
-        
-        self.textView.textDidSetBlock = ^(NSString *text, CGFloat textHeight) {
-            
-            [weakSelf.textView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_greaterThanOrEqualTo(@(textHeight)).priority(888);
-                
-            }];
-            
-            [weakSelf layoutIfNeeded];
-        };
-        
     }
     
     return self;
@@ -78,12 +66,18 @@
 #pragma mark -
 #pragma mark - UITextViewDelegate
 -(void)textViewDidChange:(UITextView *)textView{
-    if (self.textView.text.length > self.maxNumberWords && self.maxNumberWords > 0) {
-        self.textView.text = [self.textView.text substringToIndex:self.maxNumberWords - 1];
+    
+    //输入的时候字符限制
+    // 判断是否存在高亮字符，如果有，则不进行字数统计和字符串截断
+    UITextRange *selectedRange = textView.markedTextRange;
+    UITextPosition *position = [textView positionFromPosition:selectedRange.start offset:0];
+    
+    if (position) {
+        return;
     }
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(textViewCell:textChange:)]) {
-        [self.delegate textViewCell:self textChange:self.textView.text];
+    if (textView.text.length > 500) {
+        textView.text = [textView.text substringToIndex:500];
     }
 }
 
@@ -105,7 +99,7 @@
     if (!_textView) {
         _textView = [[LSAutoHeightTextView alloc] initWithFrame:CGRectZero];
         _textView.font = [UIFont systemFontOfSize:14];
-        _textView.numberOfLines = 1000;
+        _textView.maxNumOfLines = 1000;
         _textView.delegate = self;
         _textView.placeholder = @"请输入内容";
         
