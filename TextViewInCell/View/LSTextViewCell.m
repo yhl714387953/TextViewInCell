@@ -79,6 +79,10 @@
     if (textView.text.length > 500) {
         textView.text = [textView.text substringToIndex:500];
     }
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(textViewCell:textChange:)]) {
+        [self.delegate textViewCell:self textChange:self.textView.text];
+    }
 }
 
 
