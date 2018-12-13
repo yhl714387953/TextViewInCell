@@ -75,7 +75,7 @@ iPhone开发中，会尽量用选择代替输入，如果输入逃避不了，�
 
 
 ***
-####高度自适应
+#### 高度自适应
 之前的文章（[cell高度自适应，约束优先级对布局的影响](http://www.jianshu.com/p/9951f4ed1141)））讲述过cell高度自适应，就是要有足够准确的约束，特别是约束优先级的设定。
 一向忠于XIB的我这次放弃了用XIB，用[Masonry](https://github.com/SnapKit/Masonry)去布局了。其实我觉得用Masonry之前最好是把XIB用的熟练了，再用Masonry会有事半功倍的效果，个人理解。
 
