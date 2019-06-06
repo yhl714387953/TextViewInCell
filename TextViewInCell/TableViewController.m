@@ -26,9 +26,7 @@
         [self.dataSource addObject:@""];
     }
     
-    
     [self.tableView registerClass:[LSTextViewCell class] forCellReuseIdentifier:@"cell"];
-    
 }
 
 -(void)dealloc{

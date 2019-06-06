@@ -7,7 +7,7 @@
 //
 
 #import "LSTextViewCell.h"
-#import "Masonry.h"
+#import <Masonry.h>
 
 @implementation LSTextViewCell
 
